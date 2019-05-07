@@ -60,7 +60,7 @@ Play.prototype = {
     // put in player
     player = game.add.sprite(100, game.height/2, "player");
     game.physics.arcade.enable(player);
-    player.body.gravity.y = 300;
+    player.body.gravity.y = 1000;
     player.collideWorldBounds = true;
 
     player.animations.add("left", [0, 1, 2, 3], 24, true);
@@ -109,6 +109,13 @@ Play.prototype = {
     // } else if(player.x > game.world.width) {
     //   player.x = 0;
     // }
+
+    // bug w/ world bounds heres a fix i guess?
+    if(player.x < 0) {
+      player.x = 0;
+    } else if(player.x > game.world.width-32) {
+      player.x = game.world.width-32;
+    }
     //end run function
 
     if(enemy.x < ENEMY_PATH_START) {
