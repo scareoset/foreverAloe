@@ -1,9 +1,12 @@
 "use strict";
 
-// player
+// player variables
 var player;
 
+// enemy variables (only good for one enemy)
 var enemy;
+var ENEMY_PATH_START = 200;
+var ENEMY_PATH_END = 500;
 
 // groups
 var platforms, enemies, buttons;
@@ -41,13 +44,16 @@ Play.prototype = {
     // enemies = game.add.group();
     // enemies.enableBody = true;
 
-    enemy = game.add.sprite(100, game.height/2, "baddie");
+    enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
     game.physics.arcade.enable(enemy);
     enemy.body.gravity.y = 300;
     enemy.collideWorldBounds = true;
 
     enemy.animations.add("left", [0, 1], 24, true);
     enemy.animations.add("right", [2, 3], 24, true);
+    // start enemy off running to the right
+    enemy.animations.play("right");
+    enemy.body.velocity.x = 200;
 
     // put in puzzles
 
@@ -63,6 +69,7 @@ Play.prototype = {
   update: function() {
     // update prefabs
     var hitPlatform = game.physics.arcade.collide(player, platforms);
+    game.physics.arcade.collide(enemy, platforms);
 
     // jump function
     grounded = player.body.touching.down;
@@ -97,19 +104,19 @@ Play.prototype = {
       player.body.velocity.x = 0;
     }
     // handle wrapping
-    if(player.x < 0) {
-      player.x = game.world.width;
-    } else if(player.x > game.world.width) {
-      player.x = 0;
-    }
+    // if(player.x < 0) {
+    //   player.x = game.world.width;
+    // } else if(player.x > game.world.width) {
+    //   player.x = 0;
+    // }
     //end run function
 
-    enemy.animations.play("right");
-    enemy.body.velocity.x = 200;
-    if(enemy.x < 0) {
-      enemy.x = game.world.width;
-    } else if(enemy.x > game.world.width) {
-      enemy.x = 0;
+    if(enemy.x < ENEMY_PATH_START) {
+      enemy.animations.play("right");
+      enemy.body.velocity.x = 200;
+    } else if(enemy.x > ENEMY_PATH_END) {
+      enemy.animations.play("left");
+      enemy.body.velocity.x = -200;
     }
 
     if(game.physics.arcade.collide(player, enemy )) {
