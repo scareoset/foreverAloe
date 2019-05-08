@@ -2,6 +2,8 @@
 
 // player variables
 var player;
+var xtraLife;
+var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemy;
@@ -65,6 +67,8 @@ Play.prototype = {
 
     player.animations.add("left", [0, 1, 2, 3], 24, true);
     player.animations.add("right", [5, 6, 7, 8], 24, true);
+
+    xtraLife = true;
   },
   update: function() {
     // update prefabs
@@ -96,9 +100,11 @@ Play.prototype = {
     if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
       player.animations.play("right");
       player.body.velocity.x = 300;
+      front = 1;
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
       player.animations.play("left");
       player.body.velocity.x = -300;
+      front = -1;
     } else {
       player.frame = 4;
       player.body.velocity.x = 0;
@@ -126,8 +132,13 @@ Play.prototype = {
       enemy.body.velocity.x = -200;
     }
 
-    if(game.physics.arcade.collide(player, enemy )) {
-      game.state.start("GameOver");
+    if(game.physics.arcade.collide(player, enemy)) {
+      if(xtraLife) {
+        xtraLife = false;
+        enemy.body.velocity.x = (front*200);
+      } else {
+        game.state.start("GameOver");
+      }
     }
   }
 }
