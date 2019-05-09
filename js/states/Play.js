@@ -1,5 +1,7 @@
 "use strict";
 
+var OFFSET = 300;
+
 // player variables
 var player;
 var xtraLife;
@@ -7,8 +9,8 @@ var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemy;
-var ENEMY_PATH_START = 200;
-var ENEMY_PATH_END = 500;
+var ENEMY_PATH_START = 650 + OFFSET;
+var ENEMY_PATH_END = 1175 + OFFSET;
 
 // groups
 var platforms, enemies, buttons;
@@ -31,6 +33,8 @@ Play.prototype = {
     // set up level(s)
     console.log("Play: create");
 
+    game.world.setBounds(0, 0, 1600 + OFFSET, 500);
+
     // set up Physics
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -38,9 +42,18 @@ Play.prototype = {
     platforms = game.add.group();
     platforms.enableBody = true;
 
+    let platform = platforms.create(225 + OFFSET, 325, "platformOne");
+    platform.body.immovable = true;
+    platform.scale.setTo(0.2);
+    let roof = platforms.create(500+ OFFSET , 0, "platform");
+    roof.body.immovable = true;
+    roof.scale.setTo(2, 10);
+
     var ground = platforms.create(0, game.world.height-40, "platform");
-    ground.scale.setTo(2, 2);
+    ground.scale.setTo(6, 2);
     ground.body.immovable = true;
+
+
 
     // put in enemies
     // enemies = game.add.group();
@@ -60,13 +73,15 @@ Play.prototype = {
     // put in puzzles
 
     // put in player
-    player = game.add.sprite(100, game.height/2, "player");
+    player = game.add.sprite(100 + OFFSET, game.height/2, "player");
     game.physics.arcade.enable(player);
     player.body.gravity.y = 1000;
     player.collideWorldBounds = true;
 
     player.animations.add("left", [0, 1, 2, 3], 24, true);
     player.animations.add("right", [5, 6, 7, 8], 24, true);
+
+    game.camera.follow(player, 1, 0.5, 0.5);
 
     xtraLife = true;
   },

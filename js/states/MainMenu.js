@@ -22,12 +22,15 @@ MainMenu.prototype = {
     game.load.spritesheet("player", "assets/img/dude.png", 32, 48);
     game.load.spritesheet("baddie", "assets/img/baddie.png", 32, 32);
     game.load.image("platform", "assets/img/platform.png");
+    game.load.image("playerTemp", "assets/img/playerTemp.png");
+    game.load.image("baddieTemp", "assets/img/baddieTemp.png");
+    game.load.image("platformOne", "assets/img/platformOne.png");
   },
   create: function() {
     // show menu screen
     console.log("MainMenu: create");
 
-    message = game.add.text(game.world.centerX, game.world.centerY, "press space to start\narrows to run\nup to jump", style);
+    message = game.add.text(400, game.world.centerY, "press space to start\narrows to run\nup to jump", style);
     message.anchor.set(0.5);
   },
   update: function() {
