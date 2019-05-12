@@ -13,7 +13,7 @@ var ENEMY_PATH_START = 650 + OFFSET;
 var ENEMY_PATH_END = 1175 + OFFSET;
 
 // groups
-var platforms, enemies, buttons;
+var platforms, enemies, buttons, health;
 
 // important flags
 var jumpsLeft, jumping, grounded;
@@ -53,7 +53,9 @@ Play.prototype = {
     ground.scale.setTo(6, 2);
     ground.body.immovable = true;
 
-
+    health = game.add.group();
+    health.enableBody = true;
+    let healthUp = health.create(263 + OFFSET, 293, "xtraLife");
 
     // put in enemies
     // enemies = game.add.group();
@@ -83,7 +85,7 @@ Play.prototype = {
 
     game.camera.follow(player, 1, 0.5, 0.5);
 
-    xtraLife = true;
+    xtraLife = false;
   },
   update: function() {
     // update prefabs
@@ -154,6 +156,13 @@ Play.prototype = {
       } else {
         game.state.start("GameOver");
       }
+    }
+
+    game.physics.arcade.overlap(player, health, collectHealth, null, this);
+
+    function collectHealth(player, hp) {
+      hp.kill();
+      xtraLife = true;
     }
   }
 }

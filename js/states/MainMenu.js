@@ -25,6 +25,7 @@ MainMenu.prototype = {
     game.load.image("playerTemp", "assets/img/playerTemp.png");
     game.load.image("baddieTemp", "assets/img/baddieTemp.png");
     game.load.image("platformOne", "assets/img/platformOne.png");
+    game.load.image("xtraLife", "assets/img/firstAid.png");
   },
   create: function() {
     // show menu screen
