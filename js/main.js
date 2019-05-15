@@ -1,6 +1,7 @@
 //  Forever Aloe
 //  Created by Annabel Maokhamphiou, Raquel Ramirez, and Daniel Wright
 //  ARTG/CMPM 120
+//  https://github.com/scareoset/foreverAloe
 
 "use strict";
 

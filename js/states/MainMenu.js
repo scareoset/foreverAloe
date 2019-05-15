@@ -1,12 +1,5 @@
 "use strict";
 
-var message;
-
-var style = {
-  font: "24px Helvetica",
-  fill: "#FFF"
-}
-
 var MainMenu = function(game) {};
 
 MainMenu.prototype = {
@@ -19,20 +12,23 @@ MainMenu.prototype = {
     console.log("MainMenu: preload");
 
     // load assets
-    game.load.spritesheet("player", "assets/img/dude.png", 32, 48);
-    game.load.spritesheet("baddie", "assets/img/baddie.png", 32, 32);
+    // game.load.spritesheet("playerSprite", "assets/img/dude.png", 32, 48);
+    game.load.atlas("player", "assets/img/player.png", "assets/img/player.json");
+    // game.load.spritesheet("baddie", "assets/img/baddie.png", 32, 32);
+    game.load.atlas("enemy", "assets/img/enemy.png", "assets/img/enemy.json");
     game.load.image("platform", "assets/img/platform.png");
     game.load.image("playerTemp", "assets/img/playerTemp.png");
     game.load.image("baddieTemp", "assets/img/baddieTemp.png");
     game.load.image("platformOne", "assets/img/platformOne.png");
     game.load.image("xtraLife", "assets/img/firstAid.png");
+    game.load.image("background", "assets/img/lvl1Background.png");
+    game.load.image("title", "assets/img/titleTemp.png");
+    game.load.audio("score", "assets/audio/score.mp3");
   },
   create: function() {
     // show menu screen
+    game.add.image(0, 0, "title");
     console.log("MainMenu: create");
-
-    message = game.add.text(400, game.world.centerY, "press space to start\narrows to run\nup to jump", style);
-    message.anchor.set(0.5);
   },
   update: function() {
     // wait for player input to start game
