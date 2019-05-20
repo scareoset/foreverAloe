@@ -75,18 +75,18 @@ Play.prototype = {
     // enemies.enableBody = true;
 
     // enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
-    enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "enemy", "Enemy-01.png");
+    enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "enemy", [0]);
     enemy.scale.setTo(0.06);
     enemy.anchor.set(0.5);
     game.physics.arcade.enable(enemy);
     enemy.body.gravity.y = 300;
     enemy.collideWorldBounds = true;
-    enemy.body.setCircle(270);
+    enemy.body.setCircle(250);
 
     // enemy.animations.add("left", [0, 1], 24, true);
-    enemy.animations.add("left", [1, 2], 15, true);
+    enemy.animations.add("left", [0, 1], 15, true);
     // enemy.animations.add("right", [2, 3], 24, true);
-    enemy.animations.add("right", [1, 2], 15, true);
+    enemy.animations.add("right", [0, 1], 15, true);
     // start enemy off running to the right
     enemy.scale.setTo(-0.1, 0.1);
     enemy.animations.play("right");
@@ -102,8 +102,10 @@ Play.prototype = {
     game.physics.arcade.enable(player);
     player.body.gravity.y = 1000;
     player.collideWorldBounds = true;
+    player.body.setCircle(32);
 
-    player.animations.add("left", [1, 2, 3, 5, 6,  7, 8, 10, 11, 12], 24, true);
+    player.animations.add("left", [1, 2, 3, 5, 6, 7], 30, true);
+    player.animations.add("jump", [8], 30, true);
     // player.animations.add("left", frameArray, 30, true);
     // player.animations.add("right", [5, 6, 7, 8], 24, true);
     // player.animations.add("right", frameArray, 30, true);
@@ -134,6 +136,7 @@ Play.prototype = {
     }
 
     if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
+      player.animations.play("jump");
       player.body.velocity.y = -300;
       jumping = true;
     }
@@ -141,25 +144,44 @@ Play.prototype = {
     if(jumping && game.input.keyboard.upDuration(Phaser.Keyboard.UP)) {
       jumpsLeft--;
       jumping = false;
+      player.animations.play("jump");
     }
     // end jump function
 
     //run function
     if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-      player.animations.play("left");
-      player.body.velocity.x = 300;
-      front = 1;
+      if(!grounded) {
+        player.animations.play("jump");
+        player.body.velocity.x = 300;
+        front = 1;
+      } else {
+        player.animations.play("left");
+        player.body.velocity.x = 300;
+        front = 1;
+      }
       player.scale.setTo(0.75, 0.75);
     } else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-      player.animations.play("left");
-      player.body.velocity.x = -300;
-      front = -1;
-      player.scale.setTo(-0.75, 0.75);
+      if(!grounded) {
+        player.animations.play("jump");
+        player.body.velocity.x = -300;
+        front = -1;
+        player.scale.setTo(-0.75, 0.75);
+      } else {
+        player.animations.play("left");
+        player.body.velocity.x = -300;
+        front = -1;
+        player.scale.setTo(-0.75, 0.75);
+      }
     } else {
-      // player.frame = 4;
-      player.animations.play("idle");
-      player.body.velocity.x = 0;
-      player.scale.setTo(0.75, 0.75);
+      if(!grounded) {
+        player.animations.play("jump");
+        player.body.velocity.x = 0;
+        player.scale.setTo(0.75, 0.75);
+      } else {
+        player.animations.play("idle");
+        player.body.velocity.x = 0;
+        player.scale.setTo(0.75, 0.75);
+      }
     }
     // handle wrapping
     // if(player.x < 0) {
@@ -203,4 +225,9 @@ Play.prototype = {
       xtraLife = true;
     }
   }
+  // },
+  // render: function() {
+  //   game.debug.body(player);
+  //   game.debug.body(enemy);
+  // }
 }

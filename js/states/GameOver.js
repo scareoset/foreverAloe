@@ -14,7 +14,7 @@ GameOver.prototype = {
 
   },
   preload: function() {
-    game.stage.backgroundColor = "1984ac";
+    game.stage.backgroundColor = "b35c53";
 
     message = game.add.text(400, game.world.centerY, "press space to return to main menu", style);
     message.anchor.set(0.5);
