@@ -21,6 +21,7 @@ window.onload = function() {
   // add states and start at main menu
   game.state.add("MainMenu", MainMenu);
   game.state.add("Play", Play);
+  game.state.add("LevelOne", LevelOne);
   game.state.add("GameOver", GameOver);
   game.state.start("MainMenu");
 }

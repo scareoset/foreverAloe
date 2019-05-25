@@ -28,22 +28,22 @@ var jumpsLeft, jumping, grounded;
 
 var song;
 
-var Play = function(game) {};
+var LevelOne = function(game) {};
 
-Play.prototype = {
-  init: function() {
-
+LevelOne.prototype = {
+  init: function(life) {
+    xtraLife = life;
   },
   preload: function() {
     // should be preloaded
     game.stage.backgroundColor = "19a4ac";
     game.add.sprite(0, 0, "background");
     game.add.sprite(0, 0, "window");
-    console.log("Play: preload");
+    console.log("LevelOne: preload");
   },
   create: function() {
     // set up level(s)
-    console.log("Play: create");
+    console.log("LevelOne: create");
 
     game.world.setBounds(0, 0, 1600 + OFFSET, 500);
 
@@ -133,7 +133,7 @@ Play.prototype = {
     song.loop = true;
     song.play();
 
-    xtraLife = false;
+    // xtraLife = false;
     playerAttack = false;
     attackTimer = game.time.create();
   },
@@ -273,11 +273,6 @@ Play.prototype = {
         song.stop();
         game.state.start("GameOver");
       }
-    }
-
-    // end tutorial
-    if(player.x > 1660 && player.y > 430) {
-      game.state.start("LevelOne", true, false, xtraLife);
     }
 
     game.physics.arcade.overlap(player, health, collectHealth, null, this);

@@ -21,7 +21,12 @@ MainMenu.prototype = {
     game.load.image("baddieTemp", "assets/img/baddieTemp.png");
     game.load.image("platformOne", "assets/img/platformOne.png");
     game.load.image("xtraLife", "assets/img/firstAid.png");
+    game.load.image("button", "assets/img/button.png");
+    game.load.image("laserOn", "assets/img/laserOn.png");
+    game.load.image("laserOff", "assets/img/laserOff.png");
+    game.load.image("screen", "assets/img/screen.png");
     game.load.image("background", "assets/img/lvl1Background.png");
+    game.load.image("window", "assets/img/window.png");
     game.load.image("title", "assets/img/titleTemp.png");
     game.load.audio("score", "assets/audio/score.mp3");
   },
