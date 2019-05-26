@@ -279,8 +279,10 @@ LevelOne.prototype = {
     game.physics.arcade.overlap(player, buttons, pressButton, null, this);
 
     function collectHealth(player, hp) {
-      hp.kill();
-      xtraLife = true;
+      if(!xtraLife) {
+        hp.kill();
+        xtraLife = true;
+      }
     }
 
     function pressButton(player, button) {
