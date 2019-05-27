@@ -1,12 +1,5 @@
 "use strict";
 
-var message;
-
-var style ={
-  font: "24px Helvetica",
-  fill: "#FFF"
-}
-
 var GameOver = function(game) {};
 
 GameOver.prototype = {
@@ -14,10 +7,7 @@ GameOver.prototype = {
 
   },
   preload: function() {
-    game.stage.backgroundColor = "b35c53";
-
-    message = game.add.text(400, game.world.centerY, "press space to return to main menu", style);
-    message.anchor.set(0.5);
+    game.add.sprite(0, 0, "dead");
   },
   create: function() {
     // set up game over screen

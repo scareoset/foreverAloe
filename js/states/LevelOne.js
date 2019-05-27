@@ -1,14 +1,5 @@
 "use strict";
 
-var OFFSET = 100;
-
-var message, shieldMessage, buttonMessage;
-
-var style = {
-  font: "24px Helvetica",
-  fill: "#FFF"
-}
-
 // player variables
 var player;
 var xtraLife, playerAttack, attackTimer;
@@ -16,8 +7,8 @@ var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemy;
-var ENEMY_PATH_START = 650 + OFFSET;
-var ENEMY_PATH_END = 1175 + OFFSET;
+var ENEMY_PATH_START = 650;
+var ENEMY_PATH_END = 1175;
 
 // groups
 var platforms, enemies, buttons, lasers, health;
@@ -36,16 +27,14 @@ LevelOne.prototype = {
   },
   preload: function() {
     // should be preloaded
-    game.stage.backgroundColor = "19a4ac";
-    game.add.sprite(0, 0, "background");
-    game.add.sprite(0, 0, "window");
+    game.add.sprite(-32, 0, "lvl2background");
     console.log("LevelOne: preload");
   },
   create: function() {
     // set up level(s)
     console.log("LevelOne: create");
 
-    game.world.setBounds(0, 0, 1600 + OFFSET, 500);
+    game.world.setBounds(0, 0, 2624, 1280);
 
     // set up Physics
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -54,30 +43,15 @@ LevelOne.prototype = {
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    let platform = platforms.create(225 + OFFSET, 325, "platformOne");
-    platform.body.immovable = true;
-    platform.scale.setTo(0.2);
-    let roof = platforms.create(500 + OFFSET , 0, "screen");
-    roof.body.immovable = true;
-    let platformTwo = platforms.create(1400 + OFFSET, 325, "platform");
-    platformTwo.body.immovable = true;
+    buildLevel();
 
-    var ground = platforms.create(0, game.world.height-40, "platform");
-    ground.scale.setTo(6, 2);
+    var ground = platforms.create(-10, 1216, "platform10");
+    ground.scale.setTo(470, 1);
     ground.body.immovable = true;
 
     health = game.add.group();
     health.enableBody = true;
-    let healthUp = health.create(263 + OFFSET, 293, "xtraLife");
-
-    message = game.add.text(200, game.world.centerY, "arrows to run\nup to jump", style);
-    message.anchor.set(0.5);
-
-    shieldMessage = game.add.text(400, 200, "shield allows you\nto take damage\nwithout dying", style);
-    message.anchor.set(0.5);
-
-    buttonMessage = game.add.text(1350, 100, "press space while\nin front of a button\nto deactivate laser", style);
-    message.anchor.set(0.5);
+    let healthUp = health.create(263, 293, "xtraLife");
 
     // put in enemies
     // enemies = game.add.group();
@@ -104,16 +78,16 @@ LevelOne.prototype = {
     // put in puzzles
     buttons = game.add.group();
     buttons.enableBody = true;
-    let button = buttons.create(1525 + OFFSET, 280, "button");
+    let button = buttons.create(1525, 280, "button");
     button.scale.setTo(0.01);
 
-    laser = platforms.create(1450 + OFFSET, 350, "laserOn");
+    laser = platforms.create(1450, 350, "laserOn");
     laser.scale.setTo(0.048);
     laser.body.immovable = true;
 
     // put in player
-    // player = game.add.sprite(100 + OFFSET, game.height/2, "playerSprite");
-    player = game.add.sprite(100 + OFFSET, game.height/2, "player", "AloeVera-01.png");
+    // player = game.add.sprite(100, game.height/2, "playerSprite");
+    player = game.add.sprite(1152, 200, "player", "AloeVera-01.png");
     player.scale.setTo(0.75);
     player.anchor.set(0.5);
     game.physics.arcade.enable(player);
@@ -133,9 +107,110 @@ LevelOne.prototype = {
     song.loop = true;
     song.play();
 
-    // xtraLife = false;
     playerAttack = false;
     attackTimer = game.time.create();
+
+    function buildLevel() {
+      // row 1
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 0, "platform04");
+        platform.body.immovable = true;
+      }
+      for(let i = 384; i < 1472; i += 64) {
+        let platform = platforms.create(i, 0, "platform07");
+        platform.body.immovable = true;
+      }
+      for(let i = 1472; i < 2624; i += 64) {
+        let platform = platforms.create(i, 0, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 2
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 64, "platform04");
+        platform.body.immovable = true;
+      }
+      let platform = platforms.create(320, 64, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 64, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1472; i < 2624; i += 64) {
+        let platform = platforms.create(i, 64, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 3
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 128, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 128, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 128, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1472; i < 2624; i += 64) {
+        let platform = platforms.create(i, 128, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 4
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 192, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 192, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(576, 192, "platform00");
+      platform.body.immovable = true;
+      for(let i = 640; i < 896; i += 64) {
+        let platform = platforms.create(i, 192, "platform01");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(896, 192, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(1088, 192, "platform00");
+      platform.body.immovable = true;
+      for(let i = 1152; i < 1344; i += 64) {
+        let platform = platforms.create(i, 192, "platform01");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 192, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 192, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 192, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 5
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 256, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 256, "platform08");
+      platform.body.immovable = true;
+      platform = platforms.create(576, 256, "platform06");
+      platform.body.immovable = true;
+      for(let i = 640; i < 896; i += 64) {
+        let platform = platforms.create(i, 256, "platform07");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(896, 256, "platform08");
+      platform.body.immovable = true;
+      platform = platforms.create(1088, 256, "platform00");
+      platform.body.immovable = true;
+      for(let i = 1152; i < 1280; i += 64) {
+        let platform = platforms.create(i, 256, "platform07");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 256, "platform04");
+      platform.body.immovable = true;
+      platform = platforms.create(1344, 256, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 256, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 256, "platform04");
+        platform.body.immovable = true;
+      }
+    }
   },
   update: function() {
     // update prefabs
@@ -290,45 +365,5 @@ LevelOne.prototype = {
         laser.kill();
       }
     }
-
-    function damage(target) {
-      if(player) {
-        if(xtraLife) {
-          // no xtraLife
-          // knockback
-        } else {
-          // die
-        }
-      } else {
-        if(boss) {
-          // boss hp --
-        } else {
-          // die
-        }
-      }
-    }
-
-    function attack() {
-      if(playerFront === enemyFront) {
-        if(playerFront === -1) {
-          if(player.x > enemy.x) {
-            // good
-          } else {
-            // damage
-          }
-        } else if(playerFront === 1) {
-          if(player.x < enemy.x) {
-            // good
-          } else {
-            // damage
-          }
-        }
-      }
-    }
   }
-  // },
-  // render: function() {
-  //   game.debug.body(player);
-  //   game.debug.body(enemy);
-  // }
 }

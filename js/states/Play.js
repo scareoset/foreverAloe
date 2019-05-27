@@ -1,6 +1,9 @@
 "use strict";
 
+// we're loading each level in its own state
+
 var OFFSET = 100;
+var PLAYER_SCALE = 64/267;
 
 var message, shieldMessage, buttonMessage;
 
@@ -36,9 +39,7 @@ Play.prototype = {
   },
   preload: function() {
     // should be preloaded
-    game.stage.backgroundColor = "19a4ac";
-    game.add.sprite(0, 0, "background");
-    game.add.sprite(0, 0, "window");
+    game.add.sprite(0, 0, "lvl1background");
     console.log("Play: preload");
   },
   create: function() {
@@ -54,16 +55,26 @@ Play.prototype = {
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    let platform = platforms.create(225 + OFFSET, 325, "platformOne");
+    let platform = platforms.create(325, 325, "platform00");
     platform.body.immovable = true;
-    platform.scale.setTo(0.2);
+    platform = platforms.create(389, 325, "platform02");
+    platform.body.immovable = true;
+    platform = platforms.create(325, 389, "platform03");
+    platform.body.immovable = true;
+    platform = platforms.create(389, 389, "platform05");
+    platform.body.immovable = true;
+
     let roof = platforms.create(500 + OFFSET , 0, "screen");
     roof.body.immovable = true;
-    let platformTwo = platforms.create(1400 + OFFSET, 325, "platform");
-    platformTwo.body.immovable = true;
+    let platformTwo = platforms.create(1444, 325, "platform09");
+    platformTwo.body.immovable = true;  // leave this line out to let them fall
+    for(let i = 1508; i < 1700; i += 56) {  // end platform w/ button
+      platformTwo = platforms.create(i, 325, "platform10");
+      platformTwo.body.immovable = true;
+    }
 
-    var ground = platforms.create(0, game.world.height-40, "platform");
-    ground.scale.setTo(6, 2);
+    var ground = platforms.create(-10, 448, "platform10");
+    ground.scale.setTo(470, 1);
     ground.body.immovable = true;
 
     health = game.add.group();
@@ -73,7 +84,7 @@ Play.prototype = {
     message = game.add.text(200, game.world.centerY, "arrows to run\nup to jump", style);
     message.anchor.set(0.5);
 
-    shieldMessage = game.add.text(400, 200, "shield allows you\nto take damage\nwithout dying", style);
+    shieldMessage = game.add.text(400, 200, "shield allows you\nto take damage\nonce without dying", style);
     message.anchor.set(0.5);
 
     buttonMessage = game.add.text(1350, 100, "press space while\nin front of a button\nto deactivate laser", style);
@@ -107,17 +118,17 @@ Play.prototype = {
     let button = buttons.create(1525 + OFFSET, 280, "button");
     button.scale.setTo(0.01);
 
-    laser = platforms.create(1450 + OFFSET, 350, "laserOn");
-    laser.scale.setTo(0.048);
+    laser = platforms.create(1450 + OFFSET, 389, "laserOn");
+    laser.scale.setTo(0.0278);
     laser.body.immovable = true;
 
     // put in player
     // player = game.add.sprite(100 + OFFSET, game.height/2, "playerSprite");
     player = game.add.sprite(100 + OFFSET, game.height/2, "player", "AloeVera-01.png");
-    player.scale.setTo(0.75);
+    player.scale.setTo(PLAYER_SCALE);
     player.anchor.set(0.5);
     game.physics.arcade.enable(player);
-    player.body.gravity.y = 1000;
+    player.body.gravity.y = 1024;
     player.collideWorldBounds = true;
     player.body.setCircle(125);
 
@@ -153,7 +164,7 @@ Play.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
-        player.body.velocity.y = -300;
+        player.body.velocity.y = -256;
         jumping = true;
       }
 
@@ -276,7 +287,7 @@ Play.prototype = {
     }
 
     // end tutorial
-    if(player.x > 1660 && player.y > 430) {
+    if(player.x > 1660 && player.y > 420) {
       song.stop();
       game.state.start("LevelOne", true, false, xtraLife);
     }
@@ -294,47 +305,8 @@ Play.prototype = {
     function pressButton(player, button) {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laser.kill();
-      }
-    }
-
-    function damage(target) {
-      if(player) {
-        if(xtraLife) {
-          // no xtraLife
-          // knockback
-        } else {
-          // die
-        }
-      } else {
-        if(boss) {
-          // boss hp --
-        } else {
-          // die
-        }
-      }
-    }
-
-    function attack() {
-      if(playerFront === enemyFront) {
-        if(playerFront === -1) {
-          if(player.x > enemy.x) {
-            // good
-          } else {
-            // damage
-          }
-        } else if(playerFront === 1) {
-          if(player.x < enemy.x) {
-            // good
-          } else {
-            // damage
-          }
-        }
+        laser = game.add.sprite(1450 + OFFSET, 389, "laserOff");
       }
     }
   }
-  // },
-  // render: function() {
-  //   game.debug.body(player);
-  //   game.debug.body(enemy);
-  // }
 }
