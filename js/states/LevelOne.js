@@ -7,8 +7,8 @@ var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemy;
-var ENEMY_PATH_START = 650;
-var ENEMY_PATH_END = 1175;
+var ENEMY_PATH_START = 640;
+var ENEMY_PATH_END = 846;
 
 // groups
 var platforms, enemies, buttons, lasers, health;
@@ -58,7 +58,7 @@ LevelOne.prototype = {
     // enemies.enableBody = true;
 
     // enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
-    enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "enemy", [0]);
+    enemy = game.add.sprite(ENEMY_PATH_START, 96, "enemy", [0]);
     enemy.scale.setTo(0.06);
     enemy.anchor.set(0.5);
     game.physics.arcade.enable(enemy);
@@ -116,11 +116,11 @@ LevelOne.prototype = {
         let platform = platforms.create(i, 0, "platform04");
         platform.body.immovable = true;
       }
-      for(let i = 384; i < 1472; i += 64) {
+      for(let i = 384; i < 1600; i += 64) {
         let platform = platforms.create(i, 0, "platform07");
         platform.body.immovable = true;
       }
-      for(let i = 1472; i < 2624; i += 64) {
+      for(let i = 1600; i < 2624; i += 64) {
         let platform = platforms.create(i, 0, "platform04");
         platform.body.immovable = true;
       }
@@ -133,7 +133,7 @@ LevelOne.prototype = {
       platform.body.immovable = true;
       platform = platforms.create(1536, 64, "platform03");
       platform.body.immovable = true;
-      for(let i = 1472; i < 2624; i += 64) {
+      for(let i = 1600; i < 2624; i += 64) {
         let platform = platforms.create(i, 64, "platform04");
         platform.body.immovable = true;
       }
@@ -146,7 +146,7 @@ LevelOne.prototype = {
       platform.body.immovable = true;
       platform = platforms.create(1536, 128, "platform03");
       platform.body.immovable = true;
-      for(let i = 1472; i < 2624; i += 64) {
+      for(let i = 1600; i < 2624; i += 64) {
         let platform = platforms.create(i, 128, "platform04");
         platform.body.immovable = true;
       }
@@ -156,14 +156,6 @@ LevelOne.prototype = {
         platform.body.immovable = true;
       }
       platform = platforms.create(384, 192, "platform02");
-      platform.body.immovable = true;
-      platform = platforms.create(576, 192, "platform00");
-      platform.body.immovable = true;
-      for(let i = 640; i < 896; i += 64) {
-        let platform = platforms.create(i, 192, "platform01");
-        platform.body.immovable = true;
-      }
-      platform = platforms.create(896, 192, "platform02");
       platform.body.immovable = true;
       platform = platforms.create(1088, 192, "platform00");
       platform.body.immovable = true;
@@ -186,21 +178,21 @@ LevelOne.prototype = {
       }
       platform = platforms.create(384, 256, "platform08");
       platform.body.immovable = true;
-      platform = platforms.create(576, 256, "platform06");
+      platform = platforms.create(576, 256, "platform09");
       platform.body.immovable = true;
       for(let i = 640; i < 896; i += 64) {
-        let platform = platforms.create(i, 256, "platform07");
+        let platform = platforms.create(i, 256, "platform10");
         platform.body.immovable = true;
       }
-      platform = platforms.create(896, 256, "platform08");
+      platform = platforms.create(896, 256, "platform11");
       platform.body.immovable = true;
-      platform = platforms.create(1088, 256, "platform00");
+      platform = platforms.create(1088, 256, "platform06");
       platform.body.immovable = true;
       for(let i = 1152; i < 1280; i += 64) {
         let platform = platforms.create(i, 256, "platform07");
         platform.body.immovable = true;
       }
-      platform = platforms.create(1344, 256, "platform04");
+      platform = platforms.create(1280, 256, "platform04");
       platform.body.immovable = true;
       platform = platforms.create(1344, 256, "platform05");
       platform.body.immovable = true;
@@ -208,6 +200,94 @@ LevelOne.prototype = {
       platform.body.immovable = true;
       for(let i = 1600; i < 2624; i += 64) {
         let platform = platforms.create(i, 256, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 6
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 320, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 320, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1280, 320, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(1344, 320, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 320, "platform04");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 320, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 7
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 384, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 384, "platform01");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 384, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 384, "platform00");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1280; i += 64) {
+        let platform = platforms.create(i, 384, "platform01");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1280, 384, "platform04");
+      platform.body.immovable = true;
+      platform = platforms.create(1344, 384, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 384, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 384, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 8
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 448, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 448, "platform07");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 448, "platform08");
+      platform.body.immovable = true;
+      platform = platforms.create(576, 448, "platform09");
+      platform.body.immovable = true;
+      platform = platforms.create(640, 448, "platform11");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 448, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1384; i += 64) {
+        let platform = platforms.create(i, 448, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 448, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 448, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 448, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 9
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 512, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 512, "platform05");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1384; i += 64) {
+        let platform = platforms.create(i, 512, "platform01");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 512, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 512, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 512, "platform04");
         platform.body.immovable = true;
       }
     }

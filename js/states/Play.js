@@ -19,8 +19,9 @@ var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemy;
-var ENEMY_PATH_START = 650 + OFFSET;
-var ENEMY_PATH_END = 1175 + OFFSET;
+var enemyPathStart = 650 + OFFSET;
+var enemyPathEnd = 1100 + OFFSET;
+var enemyFront = 1; // 1 = right, -1 = left
 
 // groups
 var platforms, enemies, buttons, lasers, health;
@@ -94,8 +95,7 @@ Play.prototype = {
     // enemies = game.add.group();
     // enemies.enableBody = true;
 
-    // enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
-    enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "enemy", [0]);
+    enemy = game.add.sprite(enemyPathStart, game.height/2, "enemy", [0]);
     enemy.scale.setTo(0.06);
     enemy.anchor.set(0.5);
     game.physics.arcade.enable(enemy);
@@ -266,20 +266,28 @@ Play.prototype = {
 
 
 
-    if(enemy.x < ENEMY_PATH_START) {
+    if(enemy.x < enemyPathStart) {
       enemy.animations.play("right");
       enemy.body.velocity.x = 200;
       enemy.scale.setTo(-0.1, 0.1);
-    } else if(enemy.x > ENEMY_PATH_END) {
+      enemyFront = 1;
+    } else if(enemy.x > enemyPathEnd) {
       enemy.animations.play("left");
       enemy.body.velocity.x = -200;
       enemy.scale.setTo(0.1, 0.1);
+      enemyFront = -1;
     }
 
     if(game.physics.arcade.collide(player, enemy)) {
       if(xtraLife) {
         xtraLife = false;
-        enemy.body.velocity.x = (front*200);
+        player.x -= front*100;
+        if(enemyFront == 1) {
+
+          enemy.body.velocity.x = 200;
+        } else {
+          enemy.body.velocity.x = 200;
+        }
       } else {
         song.stop();
         game.state.start("GameOver");

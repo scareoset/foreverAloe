@@ -48,6 +48,8 @@ MainMenu.prototype = {
     if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
       console.log("Starting Play");
       game.state.start("Play");
+      // console.log("Starting LevelOne");
+      // game.state.start("LevelOne");
     }
   }
 }
