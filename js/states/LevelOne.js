@@ -6,9 +6,10 @@ var xtraLife, playerAttack, attackTimer;
 var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
-var enemy;
-var ENEMY_PATH_START = 640;
-var ENEMY_PATH_END = 846;
+var enemyTwo;
+var enemyPathTwoStart = 640;
+var enemyPathTwoEnd = 846;
+enemyFront = 1; // 1 = right, -1 = left
 
 // groups
 var platforms, enemies, buttons, lasers, health;
@@ -58,22 +59,22 @@ LevelOne.prototype = {
     // enemies.enableBody = true;
 
     // enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
-    enemy = game.add.sprite(ENEMY_PATH_START, 96, "enemy", [0]);
-    enemy.scale.setTo(0.06);
-    enemy.anchor.set(0.5);
-    game.physics.arcade.enable(enemy);
-    enemy.body.gravity.y = 300;
-    enemy.collideWorldBounds = true;
-    enemy.body.setCircle(250);
+    enemyTwo = game.add.sprite(enemyPathTwoStart, 96, "enemy", [0]);
+    enemyTwo.scale.setTo(0.06);
+    enemyTwo.anchor.set(0.5);
+    game.physics.arcade.enable(enemyTwo);
+    enemyTwo.body.gravity.y = 300;
+    enemyTwo.collideWorldBounds = true;
+    enemyTwo.body.setCircle(250);
 
     // enemy.animations.add("left", [0, 1], 24, true);
-    enemy.animations.add("left", [0, 1], 15, true);
+    enemyTwo.animations.add("left", [0, 1], 15, true);
     // enemy.animations.add("right", [2, 3], 24, true);
-    enemy.animations.add("right", [0, 1], 15, true);
+    enemyTwo.animations.add("right", [0, 1], 15, true);
     // start enemy off running to the right
-    enemy.scale.setTo(-0.1, 0.1);
-    enemy.animations.play("right");
-    enemy.body.velocity.x = 200;
+    enemyTwo.scale.setTo(-0.1, 0.1);
+    enemyTwo.animations.play("right");
+    enemyTwo.body.velocity.x = 200;
 
     // put in puzzles
     buttons = game.add.group();
@@ -87,7 +88,7 @@ LevelOne.prototype = {
 
     // put in player
     // player = game.add.sprite(100, game.height/2, "playerSprite");
-    player = game.add.sprite(1152, 200, "player", "AloeVera-01.png");
+    player = game.add.sprite(128, 1088, "player", "AloeVera-01.png");
     player.scale.setTo(0.75);
     player.anchor.set(0.5);
     game.physics.arcade.enable(player);
@@ -116,11 +117,11 @@ LevelOne.prototype = {
         let platform = platforms.create(i, 0, "platform04");
         platform.body.immovable = true;
       }
-      for(let i = 384; i < 1600; i += 64) {
+      for(let i = 384; i < 1536; i += 64) {
         let platform = platforms.create(i, 0, "platform07");
         platform.body.immovable = true;
       }
-      for(let i = 1600; i < 2624; i += 64) {
+      for(let i = 1536; i < 2624; i += 64) {
         let platform = platforms.create(i, 0, "platform04");
         platform.body.immovable = true;
       }
@@ -253,9 +254,9 @@ LevelOne.prototype = {
       platform.body.immovable = true;
       platform = platforms.create(448, 448, "platform08");
       platform.body.immovable = true;
-      platform = platforms.create(576, 448, "platform09");
+      platform = platforms.create(640, 448, "platform09");
       platform.body.immovable = true;
-      platform = platforms.create(640, 448, "platform11");
+      platform = platforms.create(704, 448, "platform11");
       platform.body.immovable = true;
       platform = platforms.create(1024, 448, "platform03");
       platform.body.immovable = true;
@@ -278,8 +279,10 @@ LevelOne.prototype = {
       }
       platform = platforms.create(320, 512, "platform05");
       platform.body.immovable = true;
+      platform = platforms.create(1024, 512, "platform03");
+      platform.body.immovable = true;
       for(let i = 1088; i < 1384; i += 64) {
-        let platform = platforms.create(i, 512, "platform01");
+        let platform = platforms.create(i, 512, "platform04");
         platform.body.immovable = true;
       }
       platform = platforms.create(1344, 512, "platform05");
@@ -290,12 +293,260 @@ LevelOne.prototype = {
         let platform = platforms.create(i, 512, "platform04");
         platform.body.immovable = true;
       }
+      // row 10
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 576, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 576, "platform05");
+      platform.body.immovable = true;
+      for(let i = 1024; i < 1384; i += 64) {
+        let platform = platforms.create(i, 576, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 576, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 576, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 576, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 11
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 640, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 640, "platform01");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 640, "platform01");
+      platform.body.immovable = true;
+      platform = platforms.create(512, 640, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(704, 640, "platform09");
+      platform.body.immovable = true;
+      platform = platforms.create(768, 640, "platform11");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 640, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1344; i += 64) {
+        let platform = platforms.create(i, 640, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 640, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 640, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 640, "platform04");
+        platform.body.immovable = true;
+      }
+      // row 12
+      for(let i = 0; i < 384; i += 64) {
+        let platform = platforms.create(i, 704, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(384, 704, "platform07");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 704, "platform07");
+      platform.body.immovable = true;
+      platform = platforms.create(512, 704, "platform08");
+      platform.body.immovable = true;
+      platform = platforms.create(896, 704, "platform00");
+      platform.body.immovable = true;
+      platform = platforms.create(960, 704, "platform01");
+      platform.body.immovable = true;
+      for(let i = 1024; i < 1344; i += 64) {
+        let platform = platforms.create(i, 704, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 704, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 704, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2624; i += 64) {
+        let platform = platforms.create(i, 704, "platform04");
+        platform.body.immovable = true;
+      }
+      //row 13
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 768, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 768, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(896, 768, "platform06");
+      platform.body.immovable = true;
+      platform = platforms.create(960, 768, "platform07");
+      platform.body.immovable = true;
+      for(let i = 1024; i < 1344; i += 64) {
+        let platform = platforms.create(i, 768, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 768, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1536, 768, "platform06");
+      platform.body.immovable = true;
+      for(let i = 1600; i < 2496; i += 64) {
+        let platform = platforms.create(i, 768, "platform07");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(2496, 768, "platform04");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 768, "platform04");
+      platform.body.immovable = true;
+      // row 14
+      for(let i = 0; i < 320; i += 64) {
+        let platform = platforms.create(i, 832, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 832, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 832, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1344; i += 64) {
+        let platform = platforms.create(i, 832, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 832, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 832, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 832, "platform04");
+      platform.body.immovable = true;
+      // row 15
+      platform = platforms.create(0, 896, "platform04");
+      platform.body.immovable = true;
+      for(let i = 64; i < 320; i += 64) {
+        let platform = platforms.create(i, 896, "platform07");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(320, 896, "platform08");
+      platform.body.immovable = true;
+      platform = platforms.create(768, 896, "platform00");
+      platform.body.immovable = true;
+      for(let i = 832; i < 1024; i++) {
+        let platform = platforms.create(i, 896, "platform01");
+        platform.body.immovable = true;
+      }
+      for(let i = 1024; i < 1344; i++) {
+        let platform = platforms.create(i, 896, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 896, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 896, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 896, "platform04");
+      platform.body.immovable = true;
+      // row 16
+      platform = platforms.create(768, 960, "platform06");
+      platform.body.immovable = true;
+      for(let i = 832; i < 1024; i++) {
+        let platform = platforms.create(i, 960, "platform07");
+        platform.body.immovable = true;
+      }
+      for(let i = 1024; i < 1344; i++) {
+        let platform = platforms.create(i, 960, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 960, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1792, 960, "platform09");
+      platform.body.immovable = true;
+      for(let i = 1856; i < 1984; i++) {
+        let platform = platforms.create(i, 960, "platform10");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1984, 960, "platform11");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 960, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 960, "platform04");
+      platform.body.immovable = true;
+      // row 17
+      platform = platforms.create(0, 1024, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 1024, "platform00");
+      platform.body.immovable = true;
+      for(let i = 512; i < 640; i++) {
+        let platform = platforms.create(i, 1024, "platform01");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(640, 1024, "platform02");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 1024, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1344; i++) {
+        let platform = platforms.create(i, 1024, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 1024, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 1024, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 1024, "platform04");
+      platform.body.immovable = true;
+      // row 18
+      platform = platforms.create(0, 1088, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 1088, "platform03");
+      platform.body.immovable = true;
+      for(let i = 512; i < 640; i++) {
+        let platform = platforms.create(i, 1088, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(640, 1088, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 1088, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1344; i++) {
+        let platform = platforms.create(i, 1088, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 1088, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1664, 1088, "platform09");
+      platform.body.immovable = true;
+      for(let i = 1728; i < 2048; i++) {
+        let platform = platforms.create(i, 1088, "platform10");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(2048, 1088, "platform11");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 1088, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 1088, "platform04");
+      platform.body.immovable = true;
+      // row 19
+      platform = platforms.create(0, 1152, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(448, 1152, "platform03");
+      platform.body.immovable = true;
+      for(let i = 512; i < 640; i++) {
+        let platform = platforms.create(i, 1152, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(640, 1152, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(1024, 1152, "platform03");
+      platform.body.immovable = true;
+      for(let i = 1088; i < 1344; i++) {
+        let platform = platforms.create(i, 1152, "platform04");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(1344, 1152, "platform05");
+      platform.body.immovable = true;
+      platform = platforms.create(2496, 1152, "platform03");
+      platform.body.immovable = true;
+      platform = platforms.create(2560, 1152, "platform04");
+      platform.body.immovable = true;
     }
   },
   update: function() {
     // update prefabs
     var hitPlatform = game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(enemy, platforms);
+    game.physics.arcade.collide(enemyTwo, platforms);
 
     if(!playerAttack) {       // if not attacking
       // jump function
@@ -308,7 +559,7 @@ LevelOne.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
-        player.body.velocity.y = -300;
+        player.body.velocity.y = -332;
         jumping = true;
       }
 
@@ -410,20 +661,23 @@ LevelOne.prototype = {
 
 
 
-    if(enemy.x < ENEMY_PATH_START) {
-      enemy.animations.play("right");
-      enemy.body.velocity.x = 200;
-      enemy.scale.setTo(-0.1, 0.1);
-    } else if(enemy.x > ENEMY_PATH_END) {
-      enemy.animations.play("left");
-      enemy.body.velocity.x = -200;
-      enemy.scale.setTo(0.1, 0.1);
+    if(enemyTwo.x < enemyPathTwoStart) {
+      enemyTwo.animations.play("right");
+      enemyTwo.body.velocity.x = 200;
+      enemyTwo.scale.setTo(-0.1, 0.1);
+      enemyFront = 1;
+    } else if(enemyTwo.x > enemyPathTwoEnd) {
+      enemyTwo.animations.play("left");
+      enemyTwo.body.velocity.x = -200;
+      enemyTwo.scale.setTo(0.1, 0.1);
+      enemyFront = -1;
     }
 
-    if(game.physics.arcade.collide(player, enemy)) {
+    if(game.physics.arcade.collide(player, enemyTwo)) {
       if(xtraLife) {
         xtraLife = false;
-        enemy.body.velocity.x = (front*200);
+        player.body.x -= front*100;
+        enemyTwo.body.velocity.x = (enemyFront*200);
       } else {
         song.stop();
         game.state.start("GameOver");

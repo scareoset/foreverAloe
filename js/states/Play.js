@@ -164,7 +164,7 @@ Play.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
-        player.body.velocity.y = -256;
+        player.body.velocity.y = -332;
         jumping = true;
       }
 
