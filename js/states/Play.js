@@ -41,11 +41,9 @@ Play.prototype = {
   preload: function() {
     // should be preloaded
     game.add.sprite(0, 0, "lvl1background");
-    console.log("Play: preload");
   },
   create: function() {
     // set up level(s)
-    console.log("Play: create");
 
     game.world.setBounds(0, 0, 1600 + OFFSET, 500);
 
@@ -130,7 +128,7 @@ Play.prototype = {
     game.physics.arcade.enable(player);
     player.body.gravity.y = 1024;
     player.collideWorldBounds = true;
-    player.body.setCircle(125);
+    // player.body.setCircle(125);
 
     player.animations.add("left", [1, 2, 3, 5, 6, 7], 30, true);
     player.animations.add("jump", [8], 30, true);
@@ -164,7 +162,7 @@ Play.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
-        player.body.velocity.y = -332;
+        player.body.velocity.y = -364;
         jumping = true;
       }
 

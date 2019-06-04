@@ -7,9 +7,19 @@ var front = 1; // 1 = right, -1 = left
 
 // enemy variables (only good for one enemy)
 var enemyTwo;
-var enemyPathTwoStart = 640;
-var enemyPathTwoEnd = 846;
-enemyFront = 1; // 1 = right, -1 = left
+var enemyTwoPathStart = 640;
+var enemyTwoPathEnd = 896;
+var enemyTwoFront = 1; // 1 = right, -1 = left
+
+var enemyThree;
+var enemyThreePathStart = 1728;
+var enemyThreePathEnd = 2048;
+var enemyThreeFront = 1; // 1 = right, -1 = left
+
+var enemyFour;
+var enemyFourPathStart = 1728;
+var enemyFourPathEnd = 2048;
+var enemyFourFront = 1; // 1 = right, -1 = left
 
 // groups
 var platforms, enemies, buttons, lasers, health;
@@ -29,11 +39,9 @@ LevelOne.prototype = {
   preload: function() {
     // should be preloaded
     game.add.sprite(-32, 0, "lvl2background");
-    console.log("LevelOne: preload");
   },
   create: function() {
     // set up level(s)
-    console.log("LevelOne: create");
 
     game.world.setBounds(0, 0, 2624, 1280);
 
@@ -58,12 +66,11 @@ LevelOne.prototype = {
     // enemies = game.add.group();
     // enemies.enableBody = true;
 
-    // enemy = game.add.sprite(ENEMY_PATH_START, game.height/2, "baddie");
-    enemyTwo = game.add.sprite(enemyPathTwoStart, 96, "enemy", [0]);
+    enemyTwo = game.add.sprite(enemyTwoPathStart, 230, "enemy", [0]);
     enemyTwo.scale.setTo(0.06);
     enemyTwo.anchor.set(0.5);
     game.physics.arcade.enable(enemyTwo);
-    enemyTwo.body.gravity.y = 300;
+    enemyTwo.body.gravity.y = 0;
     enemyTwo.collideWorldBounds = true;
     enemyTwo.body.setCircle(250);
 
@@ -75,6 +82,40 @@ LevelOne.prototype = {
     enemyTwo.scale.setTo(-0.1, 0.1);
     enemyTwo.animations.play("right");
     enemyTwo.body.velocity.x = 200;
+
+    enemyThree = game.add.sprite(enemyThreePathStart, 1020, "enemy", [0]);
+    enemyThree.scale.setTo(0.06);
+    enemyThree.anchor.set(0.5);
+    game.physics.arcade.enable(enemyThree);
+    enemyThree.body.gravity.y = 0;
+    enemyThree.collideWorldBounds = true;
+    enemyThree.body.setCircle(250);
+
+    // enemy.animations.add("left", [0, 1], 24, true);
+    enemyThree.animations.add("left", [0, 1], 15, true);
+    // enemy.animations.add("right", [2, 3], 24, true);
+    enemyThree.animations.add("right", [0, 1], 15, true);
+    // start enemy off running to the right
+    enemyThree.scale.setTo(-0.1, 0.1);
+    enemyThree.animations.play("right");
+    enemyThree.body.velocity.x = 200;
+
+    enemyFour = game.add.sprite(enemyFourPathStart, 1145, "enemy", [0]);
+    enemyFour.scale.setTo(0.06);
+    enemyFour.anchor.set(0.5);
+    game.physics.arcade.enable(enemyFour);
+    enemyFour.body.gravity.y = 300;
+    enemyFour.collideWorldBounds = true;
+    enemyFour.body.setCircle(250);
+
+    // enemy.animations.add("left", [0, 1], 24, true);
+    enemyFour.animations.add("left", [0, 1], 15, true);
+    // enemy.animations.add("right", [2, 3], 24, true);
+    enemyFour.animations.add("right", [0, 1], 15, true);
+    // start enemy off running to the right
+    enemyFour.scale.setTo(-0.1, 0.1);
+    enemyFour.animations.play("right");
+    enemyFour.body.velocity.x = 200;
 
     // put in puzzles
     buttons = game.add.group();
@@ -94,7 +135,7 @@ LevelOne.prototype = {
     game.physics.arcade.enable(player);
     player.body.gravity.y = 1000;
     player.collideWorldBounds = true;
-    player.body.setCircle(125);
+    // player.body.setCircle(125);
 
     player.animations.add("left", [1, 2, 3, 5, 6, 7], 30, true);
     player.animations.add("jump", [8], 30, true);
@@ -452,14 +493,6 @@ LevelOne.prototype = {
       }
       platform = platforms.create(1344, 960, "platform05");
       platform.body.immovable = true;
-      platform = platforms.create(1792, 960, "platform09");
-      platform.body.immovable = true;
-      for(let i = 1856; i < 1984; i++) {
-        let platform = platforms.create(i, 960, "platform10");
-        platform.body.immovable = true;
-      }
-      platform = platforms.create(1984, 960, "platform11");
-      platform.body.immovable = true;
       platform = platforms.create(2496, 960, "platform03");
       platform.body.immovable = true;
       platform = platforms.create(2560, 960, "platform04");
@@ -483,6 +516,14 @@ LevelOne.prototype = {
       }
       platform = platforms.create(1344, 1024, "platform05");
       platform.body.immovable = true;
+      platform = platforms.create(1664, 1024, "platform09");
+      platform.body.immovable = true;
+      for(let i = 1728; i < 2048; i++) {
+        let platform = platforms.create(i, 1024, "platform10");
+        platform.body.immovable = true;
+      }
+      platform = platforms.create(2048, 1024, "platform11");
+      platform.body.immovable = true;
       platform = platforms.create(2496, 1024, "platform03");
       platform.body.immovable = true;
       platform = platforms.create(2560, 1024, "platform04");
@@ -505,14 +546,6 @@ LevelOne.prototype = {
         platform.body.immovable = true;
       }
       platform = platforms.create(1344, 1088, "platform05");
-      platform.body.immovable = true;
-      platform = platforms.create(1664, 1088, "platform09");
-      platform.body.immovable = true;
-      for(let i = 1728; i < 2048; i++) {
-        let platform = platforms.create(i, 1088, "platform10");
-        platform.body.immovable = true;
-      }
-      platform = platforms.create(2048, 1088, "platform11");
       platform.body.immovable = true;
       platform = platforms.create(2496, 1088, "platform03");
       platform.body.immovable = true;
@@ -547,6 +580,8 @@ LevelOne.prototype = {
     // update prefabs
     var hitPlatform = game.physics.arcade.collide(player, platforms);
     game.physics.arcade.collide(enemyTwo, platforms);
+    game.physics.arcade.collide(enemyThree, platforms);
+    game.physics.arcade.collide(enemyFour, platforms);
 
     if(!playerAttack) {       // if not attacking
       // jump function
@@ -559,7 +594,7 @@ LevelOne.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
-        player.body.velocity.y = -332;
+        player.body.velocity.y = -364;
         jumping = true;
       }
 
@@ -661,23 +696,69 @@ LevelOne.prototype = {
 
 
 
-    if(enemyTwo.x < enemyPathTwoStart) {
+    if(enemyTwo.x < enemyTwoPathStart) {
       enemyTwo.animations.play("right");
       enemyTwo.body.velocity.x = 200;
       enemyTwo.scale.setTo(-0.1, 0.1);
-      enemyFront = 1;
-    } else if(enemyTwo.x > enemyPathTwoEnd) {
+      enemyTwoFront = 1;
+    } else if(enemyTwo.x > enemyTwoPathEnd) {
       enemyTwo.animations.play("left");
       enemyTwo.body.velocity.x = -200;
       enemyTwo.scale.setTo(0.1, 0.1);
-      enemyFront = -1;
+      enemyTwoFront = -1;
     }
 
     if(game.physics.arcade.collide(player, enemyTwo)) {
       if(xtraLife) {
         xtraLife = false;
         player.body.x -= front*100;
-        enemyTwo.body.velocity.x = (enemyFront*200);
+        enemyTwo.body.velocity.x = (enemyTwoFront*200);
+      } else {
+        song.stop();
+        game.state.start("GameOver");
+      }
+    }
+
+    if(enemyThree.x < enemyThreePathStart) {
+      enemyThree.animations.play("right");
+      enemyThree.body.velocity.x = 200;
+      enemyThree.scale.setTo(-0.1, 0.1);
+      enemyThreeFront = 1;
+    } else if(enemyThree.x > enemyThreePathEnd) {
+      enemyThree.animations.play("left");
+      enemyThree.body.velocity.x = -200;
+      enemyThree.scale.setTo(0.1, 0.1);
+      enemyThreeFront = -1;
+    }
+
+    if(game.physics.arcade.collide(player, enemyThree)) {
+      if(xtraLife) {
+        xtraLife = false;
+        player.body.x -= front*100;
+        enemyThree.body.velocity.x = (enemyThreeFront*200);
+      } else {
+        song.stop();
+        game.state.start("GameOver");
+      }
+    }
+
+    if(enemyFour.x < enemyFourPathStart) {
+      enemyFour.animations.play("right");
+      enemyFour.body.velocity.x = 200;
+      enemyFour.scale.setTo(-0.1, 0.1);
+      enemyFourFront = 1;
+    } else if(enemyFour.x > enemyFourPathEnd) {
+      enemyFour.animations.play("left");
+      enemyFour.body.velocity.x = -200;
+      enemyFour.scale.setTo(0.1, 0.1);
+      enemyFourFront = -1;
+    }
+
+    if(game.physics.arcade.collide(player, enemyFour)) {
+      if(xtraLife) {
+        xtraLife = false;
+        player.body.x -= front*100;
+        enemyFour.body.velocity.x = (enemyFourFront*200);
       } else {
         song.stop();
         game.state.start("GameOver");

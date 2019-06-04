@@ -8,9 +8,9 @@ MainMenu.prototype = {
   },
   preload: function() {
     // preload assets for game
-    console.log("MainMenu: preload");
 
     // load assets
+    game.load.image("comic", "assets/img/introComic.png");
     game.load.atlas("player", "assets/img/player.png", "assets/img/player.json");
     game.load.atlas("enemy", "assets/img/enemy.png", "assets/img/enemy.json");
     game.load.image("platform", "assets/img/platform.png");
@@ -41,13 +41,11 @@ MainMenu.prototype = {
   create: function() {
     // show menu screen
     game.add.image(0, 0, "title");
-    console.log("MainMenu: create");
   },
   update: function() {
     // wait for player input to start game
     if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-      console.log("Starting Play");
-      game.state.start("Play");
+      game.state.start("Intro");
       // console.log("Starting LevelOne");
       // game.state.start("LevelOne");
     }
