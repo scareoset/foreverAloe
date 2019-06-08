@@ -31,6 +31,7 @@ var laser;
 var jumpsLeft, jumping, grounded;
 
 var song;
+var jumpSFX, shieldSFX, buttonSFX;
 
 var Play = function(game) {};
 
@@ -143,6 +144,17 @@ Play.prototype = {
     song.loop = true;
     song.play();
 
+    // var jumpSFX, shieldSFX, buttonSFX;
+
+    jumpSFX = game.add.audio("jumpSound");
+    jumpSFX.loop = false;
+
+    shieldSFX = game.add.audio("shieldSound");
+    shieldSFX.loop = false;
+
+    buttonSFX = game.add.audio("buttonSound");
+    buttonSFX.loop = false;
+
     xtraLife = false;
     playerAttack = false;
     attackTimer = game.time.create();
@@ -163,6 +175,7 @@ Play.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
+        jumpSFX.play();
         player.body.velocity.y = -364;
         jumping = true;
       }
@@ -306,6 +319,7 @@ Play.prototype = {
       if(!xtraLife) {
         hp.kill();
         xtraLife = true;
+        shieldSFX.play();
       }
     }
 
@@ -313,6 +327,7 @@ Play.prototype = {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laser.kill();
         button.loadTexture("buttonOff");
+        buttonSFX.play();
       }
     }
   }

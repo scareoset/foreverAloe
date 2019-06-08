@@ -36,6 +36,7 @@ var door;
 var jumpsLeft, jumping, grounded;
 
 var song;
+var jumpSFX, shieldSFX, buttonSFX;
 
 var LevelOne = function(game) {};
 
@@ -185,6 +186,15 @@ LevelOne.prototype = {
     song = game.add.audio("score");
     song.loop = true;
     song.play();
+    
+    jumpSFX = game.add.audio("jumpSound");
+    jumpSFX.loop = false;
+
+    shieldSFX = game.add.audio("shieldSound");
+    shieldSFX.loop = false;
+
+    buttonSFX = game.add.audio("buttonSound");
+    buttonSFX.loop = false;
 
     playerAttack = false;
     attackTimer = game.time.create();
@@ -632,6 +642,7 @@ LevelOne.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
+        jumpSFX.play();
         player.body.velocity.y = -364;
         jumping = true;
       }
@@ -831,6 +842,7 @@ LevelOne.prototype = {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laserRed.kill();
         buttonRed.loadTexture("buttonOff");
+        buttonSFX.play();
       }
     }
 
@@ -838,6 +850,7 @@ LevelOne.prototype = {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laserGreen.kill();
         buttonGreen.loadTexture("buttonOff");
+        buttonSFX.play();
       }
     }
 
@@ -845,6 +858,7 @@ LevelOne.prototype = {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laserBlue.kill();
         buttonBlue.loadTexture("buttonOff");
+        buttonSFX.play();
       }
     }
 
@@ -852,6 +866,7 @@ LevelOne.prototype = {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         laserPurple.kill();
         buttonPurple.loadTexture("buttonOff");
+        buttonSFX.play();
       }
     }
 
@@ -864,6 +879,7 @@ LevelOne.prototype = {
       if(!xtraLife) {
         hp.kill();
         xtraLife = true;
+        shieldSFX.play();
       }
     }
   }

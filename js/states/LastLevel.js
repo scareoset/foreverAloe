@@ -20,6 +20,7 @@ var touchdown;
 var jumpsLeft, jumping, grounded;
 
 var song;
+var buttonSFX, jumpSFX;
 
 var LastLevel = function(game) {};
 
@@ -122,6 +123,12 @@ LastLevel.prototype = {
     song.loop = true;
     song.play();
 
+    jumpSFX = game.add.audio("jumpSound");
+    jumpSFX.loop = false;
+
+    buttonSFX = game.add.audio("buttonSound");
+    buttonSFX.loop = false;
+
     xtraLife = false;
     playerAttack = false;
     touchdown = false;
@@ -166,6 +173,7 @@ LastLevel.prototype = {
 
       if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
         player.animations.play("jump");
+        jumpSFX.play();
         player.body.velocity.y = -364;
         jumping = true;
       }
@@ -286,6 +294,7 @@ LastLevel.prototype = {
     function pressButton(player, button) {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         platformTwo.body.immovable = false;
+        buttonSFX.play();
         platformTwo.body.gravity.y = 300;
         button.loadTexture("buttonOff");
       }

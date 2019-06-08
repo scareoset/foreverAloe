@@ -54,6 +54,11 @@ MainMenu.prototype = {
     game.load.image("dead", "assets/img/dead.png");
     game.load.image("title", "assets/img/title.png");
     game.load.audio("score", "assets/audio/score.mp3");
+    game.load.audio("buttonSound", "assets/audio/button.mp3");
+    game.load.audio("deathSound", "assets/audio/death.mp3");
+    game.load.audio("enemySound", "assets/audio/enemy.mp3");
+    game.load.audio("jumpSound", "assets/audio/jump.mp3");
+    game.load.audio("shieldSound", "assets/audio/shield.mp3");
   },
   create: function() {
     // show menu screen
