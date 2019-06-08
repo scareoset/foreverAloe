@@ -24,5 +24,7 @@ window.onload = function() {
   game.state.add("Play", Play);
   game.state.add("LevelOne", LevelOne);
   game.state.add("GameOver", GameOver);
+  game.state.add("LastLevel", LastLevel);
+  game.state.add("End", End);
   game.state.start("MainMenu");
 }

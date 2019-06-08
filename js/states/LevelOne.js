@@ -21,9 +21,16 @@ var enemyFourPathStart = 1728;
 var enemyFourPathEnd = 2048;
 var enemyFourFront = 1; // 1 = right, -1 = left
 
+var enemyFive;
+var enemyFivePathStart = 1728;
+var enemyFivePathEnd = 2048;
+var enemyFiveFront = 1; // 1 = right, -1 = left
+
 // groups
-var platforms, enemies, buttons, lasers, health;
-var laser;
+var platforms, enemies, buttons, lasers, health, doors;
+var laserRed, laserGreen, laserBlue, laserPurple;
+var buttonRed, buttonGreen, buttonBlue, buttonPurple;
+var door;
 
 // important flags
 var jumpsLeft, jumping, grounded;
@@ -52,6 +59,9 @@ LevelOne.prototype = {
     platforms = game.add.group();
     platforms.enableBody = true;
 
+    doors = game.add.group();
+    door = doors.create(2432, 1088, "door");
+
     buildLevel();
 
     var ground = platforms.create(-10, 1216, "platform10");
@@ -60,7 +70,7 @@ LevelOne.prototype = {
 
     health = game.add.group();
     health.enableBody = true;
-    let healthUp = health.create(263, 293, "xtraLife");
+    let healthUp = health.create(576, 992, "xtraLife");
 
     // put in enemies
     // enemies = game.add.group();
@@ -83,7 +93,7 @@ LevelOne.prototype = {
     enemyTwo.animations.play("right");
     enemyTwo.body.velocity.x = 200;
 
-    enemyThree = game.add.sprite(enemyThreePathStart, 1020, "enemy", [0]);
+    enemyThree = game.add.sprite(enemyThreePathStart, 1000, "enemy", [0]);
     enemyThree.scale.setTo(0.06);
     enemyThree.anchor.set(0.5);
     game.physics.arcade.enable(enemyThree);
@@ -117,18 +127,45 @@ LevelOne.prototype = {
     enemyFour.animations.play("right");
     enemyFour.body.velocity.x = 200;
 
+    enemyFive = game.add.sprite(enemyFivePathEnd - 25, 1145, "enemy", [0]);
+    enemyFive.scale.setTo(0.06);
+    enemyFive.anchor.set(0.5);
+    game.physics.arcade.enable(enemyFive);
+    enemyFive.body.gravity.y = 300;
+    enemyFive.collideWorldBounds = true;
+    enemyFive.body.setCircle(250);
+
+    // enemy.animations.add("left", [0, 1], 24, true);
+    enemyFive.animations.add("left", [0, 1], 15, true);
+    // enemy.animations.add("right", [2, 3], 24, true);
+    enemyFive.animations.add("right", [0, 1], 15, true);
+    // start enemy off running to the right
+    enemyFive.scale.setTo(-0.1, 0.1);
+    enemyFive.animations.play("right");
+    enemyFive.body.velocity.x = 200;
+
     // put in puzzles
     buttons = game.add.group();
     buttons.enableBody = true;
-    let button = buttons.create(1525, 280, "button");
-    button.scale.setTo(0.01);
+    buttonRed = buttons.create(960, 1184, "buttonBlue");
+    buttonRed.scale.setTo(0.33);
+    buttonGreen= buttons.create(992, 865, "buttonGreen");
+    buttonGreen.scale.setTo(0.33);
+    buttonBlue= buttons.create(406, 608, "buttonRed");
+    buttonBlue.scale.setTo(0.33);
+    buttonPurple= buttons.create(1248, 352, "buttonPurple");
+    buttonPurple.scale.setTo(0.33);
 
-    laser = platforms.create(1450, 350, "laserOn");
-    laser.scale.setTo(0.048);
-    laser.body.immovable = true;
+    laserRed = platforms.create(896, 832, "laserBlue");
+    laserRed.body.immovable = true;
+    laserGreen = platforms.create(1216, 64, "laserTallGreen");
+    laserGreen.body.immovable = true;
+    laserBlue = platforms.create(1280, 64, "laserTallRed");
+    laserBlue.body.immovable = true;
+    laserPurple = platforms.create(1344, 64, "laserTallPurple");
+    laserPurple.body.immovable = true;
 
     // put in player
-    // player = game.add.sprite(100, game.height/2, "playerSprite");
     player = game.add.sprite(128, 1088, "player", "AloeVera-01.png");
     player.scale.setTo(0.75);
     player.anchor.set(0.5);
@@ -582,6 +619,7 @@ LevelOne.prototype = {
     game.physics.arcade.collide(enemyTwo, platforms);
     game.physics.arcade.collide(enemyThree, platforms);
     game.physics.arcade.collide(enemyFour, platforms);
+    game.physics.arcade.collide(enemyFive, platforms);
 
     if(!playerAttack) {       // if not attacking
       // jump function
@@ -765,19 +803,67 @@ LevelOne.prototype = {
       }
     }
 
+    if(enemyFive.x < enemyFivePathStart) {
+      enemyFive.animations.play("right");
+      enemyFive.body.velocity.x = 200;
+      enemyFive.scale.setTo(-0.1, 0.1);
+      enemyFiveFront = 1;
+    } else if(enemyFive.x > enemyFivePathEnd) {
+      enemyFive.animations.play("left");
+      enemyFive.body.velocity.x = -200;
+      enemyFive.scale.setTo(0.1, 0.1);
+      enemyFiveFront = -1;
+    }
+
+    if(game.physics.arcade.collide(player, enemyFive)) {
+      if(xtraLife) {
+        xtraLife = false;
+        player.body.x -= front*100;
+        enemyFive.body.velocity.x = (enemyFiveFront*200);
+      } else {
+        song.stop();
+        game.state.start("GameOver");
+      }
+    }
+
     game.physics.arcade.overlap(player, health, collectHealth, null, this);
-    game.physics.arcade.overlap(player, buttons, pressButton, null, this);
+    if(game.physics.arcade.overlap(player, buttonRed)) {
+      if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        laserRed.kill();
+        buttonRed.loadTexture("buttonOff");
+      }
+    }
+
+    if(game.physics.arcade.overlap(player, buttonGreen)) {
+      if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        laserGreen.kill();
+        buttonGreen.loadTexture("buttonOff");
+      }
+    }
+
+    if(game.physics.arcade.overlap(player, buttonBlue)) {
+      if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        laserBlue.kill();
+        buttonBlue.loadTexture("buttonOff");
+      }
+    }
+
+    if(game.physics.arcade.overlap(player, buttonPurple)) {
+      if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+        laserPurple.kill();
+        buttonPurple.loadTexture("buttonOff");
+      }
+    }
+
+    if(player.x > 2450){
+      song.stop();
+      game.state.start("LastLevel", true, false, xtraLife);
+    }
 
     function collectHealth(player, hp) {
       if(!xtraLife) {
         hp.kill();
         xtraLife = true;
-      }
-    }
-
-    function pressButton(player, button) {
-      if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        laser.kill();
       }
     }
   }

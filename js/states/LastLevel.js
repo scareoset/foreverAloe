@@ -2,41 +2,30 @@
 
 // we're loading each level in its own state
 
-var OFFSET = 100;
-var PLAYER_SCALE = 64/267;
-
-var message, shieldMessage, buttonMessage;
-
-var style = {
-  font: "24px Helvetica",
-  fill: "#FFF"
-}
-
 // player variables
 var player;
 var xtraLife, playerAttack, attackTimer;
 var front = 1; // 1 = right, -1 = left
 
-// enemy variables (only good for one enemy)
-var enemy;
-var enemyPathStart = 650 + OFFSET;
-var enemyPathEnd = 1100 + OFFSET;
-var enemyFront = 1; // 1 = right, -1 = left
-
 // groups
-var platforms, enemies, buttons, lasers, health;
-var laser;
+var platforms, buttons, friends;
+var friendOne, friendTwo, friendThree;
+var platformTwo, cage, cageLeft, cageRight;
+
+var doors, door;
+
+var touchdown;
 
 // important flags
 var jumpsLeft, jumping, grounded;
 
 var song;
 
-var Play = function(game) {};
+var LastLevel = function(game) {};
 
-Play.prototype = {
-  init: function() {
-
+LastLevel.prototype = {
+  init: function(life) {
+    xtraLife = life;
   },
   preload: function() {
     // should be preloaded
@@ -45,7 +34,7 @@ Play.prototype = {
   create: function() {
     // set up level(s)
 
-    game.world.setBounds(0, 0, 1600 + OFFSET, 500);
+    game.world.setBounds(0, 0, 800, 500);
 
     // set up Physics
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -54,72 +43,62 @@ Play.prototype = {
     platforms = game.add.group();
     platforms.enableBody = true;
 
-    let platform = platforms.create(325, 325, "platform00");
-    platform.body.immovable = true;
-    platform = platforms.create(389, 325, "platform02");
-    platform.body.immovable = true;
-    platform = platforms.create(325, 389, "platform03");
-    platform.body.immovable = true;
-    platform = platforms.create(389, 389, "platform05");
-    platform.body.immovable = true;
-
-    let roof = platforms.create(500 + OFFSET , 0, "screen");
-    roof.body.immovable = true;
-    let platformTwo = platforms.create(1444, 325, "platform09");
-    platformTwo.body.immovable = true;  // leave this line out to let them fall
-    for(let i = 1508; i < 1700; i += 56) {  // end platform w/ button
-      platformTwo = platforms.create(i, 325, "platform10");
-      platformTwo.body.immovable = true;
-    }
-
     var ground = platforms.create(-10, 448, "platform10");
     ground.scale.setTo(470, 1);
     ground.body.immovable = true;
 
-    health = game.add.group();
-    health.enableBody = true;
-    let healthUp = health.create(263 + OFFSET, 293, "xtraLife");
+    doors = game.add.group();
+    door = doors.create(736, 320, "doorTwo");
 
-    message = game.add.text(200, game.world.centerY, "arrows to run\nup to jump", style);
-    message.anchor.set(0.5);
-
-    shieldMessage = game.add.text(400, 200, "shield allows you\nto take damage\nonce without dying", style);
-    message.anchor.set(0.5);
-
-    buttonMessage = game.add.text(1350, 100, "press space while\nin front of a button\nto deactivate laser", style);
-    message.anchor.set(0.5);
-
-    // put in enemies
-    // enemies = game.add.group();
-    // enemies.enableBody = true;
-
-    enemy = game.add.sprite(enemyPathStart, game.height/2, "enemy", [0]);
-    enemy.scale.setTo(0.06);
-    enemy.anchor.set(0.5);
-    game.physics.arcade.enable(enemy);
-    enemy.body.gravity.y = 300;
-    enemy.collideWorldBounds = true;
-    enemy.body.setCircle(250);
-
-    // enemy.animations.add("left", [0, 1], 24, true);
-    enemy.animations.add("left", [0, 1], 15, true);
-    // enemy.animations.add("right", [2, 3], 24, true);
-    enemy.animations.add("right", [0, 1], 15, true);
-    // start enemy off running to the right
-    enemy.scale.setTo(-0.1, 0.1);
-    enemy.animations.play("right");
-    enemy.body.velocity.x = 200;
+    friends = game.add.group();
+    friends.enableBody = true;
 
     // put in puzzles
     buttons = game.add.group();
     buttons.enableBody = true;
-    let buttonOff = buttons.create(1525 + OFFSET, 280, "buttonOff");
-    buttonOff.scale.setTo(0.33);
-    let button = buttons.create(1525 + OFFSET, 280, "buttonRed");
+    let button = buttons.create(400, 404, "buttonRed");
     button.scale.setTo(0.33);
 
-    laser = platforms.create(1450 + OFFSET, 384, "laserRed");
-    laser.body.immovable = true;
+    friendOne = friends.create(547, 128, "friendOne");
+    friendOne.scale.setTo(0.45);
+    friendOne.anchor.set(0.5);
+    game.physics.arcade.enable(friendOne);
+    friendOne.body.gravity.y = 0;
+    friendOne.collideWorldBounds = true;
+    friendOne.body.setCircle(32);
+    friendOne.body.gravity.y = 300;
+    friendOne.body.bounce.set(0.3);
+
+    friendTwo = friends.create(547+74, 192, "friendTwo");
+    friendTwo.scale.setTo(0.33);
+    friendTwo.anchor.set(0.5);
+    game.physics.arcade.enable(friendTwo);
+    friendTwo.body.gravity.y = 0;
+    friendTwo.collideWorldBounds = true;
+    friendTwo.body.setCircle(32);
+    friendTwo.body.gravity.y = 300;
+    friendTwo.body.bounce.set(0.3);
+
+    friendThree = friends.create(547+74+74, 128, "friendThree");
+    friendThree.scale.setTo(0.5);
+    friendThree.anchor.set(0.5);
+    game.physics.arcade.enable(friendThree);
+    friendThree.body.gravity.y = 0;
+    friendThree.collideWorldBounds = true;
+    friendThree.body.setCircle(32);
+    friendThree.body.gravity.y = 300;
+    friendThree.body.bounce.set(0.3);
+
+    // cage = platforms.create(500, 32, "cageTop");
+    // cage.body.immovable = true;
+    cage = game.add.sprite(500, 32, "cageTop");
+    cageLeft = platforms.create(500, 32, "cageSide");
+    cageLeft.body.immovable = true;
+    cageRight = platforms.create(740, 32, "cageSide");
+    cageRight.body.immovable = true;
+
+    platformTwo = platforms.create(500, 272, "cageBottom");
+    platformTwo.body.immovable = true;
 
     // put in player
     // player = game.add.sprite(100 + OFFSET, game.height/2, "playerSprite");
@@ -145,12 +124,36 @@ Play.prototype = {
 
     xtraLife = false;
     playerAttack = false;
-    attackTimer = game.time.create();
+    touchdown = false;
   },
   update: function() {
     // update prefabs
     var hitPlatform = game.physics.arcade.collide(player, platforms);
-    game.physics.arcade.collide(enemy, platforms);
+    game.physics.arcade.collide(friends, platforms);
+    game.physics.arcade.collide(player, friends);
+
+    if(friendOne.y > 400) {
+      touchdown = true;
+    }
+
+    if(friendOne.x > 780) {
+      friendOne.kill();
+    } else if(friendOne.x < 0) {
+      friendOne.x = 547;
+    }
+
+    if(friendTwo.x > 780) {
+      friendTwo.kill();
+    } else if(friendTwo.x < 0) {
+      friendTwo.x = 547+74;
+    }
+
+
+    if(friendThree.x > 780) {
+      friendThree.kill();
+    } else if(friendThree.x < 0) {
+      friendThree.x = 547+74+74;
+    }
 
     if(!playerAttack) {       // if not attacking
       // jump function
@@ -258,60 +261,32 @@ Play.prototype = {
       } else if(player.x > game.world.width-32) {
         player.x = game.world.width-32;
       }
+
+      if(player.y > 474) {
+        player.y = 406;
+      }
       //end run function
     } else if(playerAttack) { // if attacking
 
     }
 
-
-
-    if(enemy.x < enemyPathStart) {
-      enemy.animations.play("right");
-      enemy.body.velocity.x = 200;
-      enemy.scale.setTo(-0.1, 0.1);
-      enemyFront = 1;
-    } else if(enemy.x > enemyPathEnd) {
-      enemy.animations.play("left");
-      enemy.body.velocity.x = -200;
-      enemy.scale.setTo(0.1, 0.1);
-      enemyFront = -1;
-    }
-
-    if(game.physics.arcade.collide(player, enemy)) {
-      if(xtraLife) {
-        xtraLife = false;
-        player.x -= front*100;
-        if(enemyFront == 1) {
-
-          enemy.body.velocity.x = 200;
-        } else {
-          enemy.body.velocity.x = 200;
-        }
-      } else {
-        song.stop();
-        game.state.start("GameOver");
-      }
-    }
-
-    // end tutorial
+    // end game
     if(player.x > 1660 && player.y > 420) {
       song.stop();
       game.state.start("LevelOne", true, false, xtraLife);
     }
 
-    game.physics.arcade.overlap(player, health, collectHealth, null, this);
-    game.physics.arcade.overlap(player, buttons, pressButton, null, this);
-
-    function collectHealth(player, hp) {
-      if(!xtraLife) {
-        hp.kill();
-        xtraLife = true;
-      }
+    if(player.x > 760) {
+      song.stop();
+      game.state.start("End");
     }
+
+    game.physics.arcade.overlap(player, buttons, pressButton, null, this);
 
     function pressButton(player, button) {
       if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        laser.kill();
+        platformTwo.body.immovable = false;
+        platformTwo.body.gravity.y = 300;
         button.loadTexture("buttonOff");
       }
     }
