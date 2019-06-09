@@ -1,3 +1,13 @@
 body {
   font-family: monospace;
+  background-color: #E2E0CA;
+}
+
+p {
+  font-size: 10px;
+}
+
+#foreverAloe {
+  position: fixed;
+  top: 0;
 }

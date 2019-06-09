@@ -148,20 +148,20 @@ LevelOne.prototype = {
     // put in puzzles
     buttons = game.add.group();
     buttons.enableBody = true;
-    buttonRed = buttons.create(960, 1184, "buttonBlue");
+    buttonRed= buttons.create(406, 160, "buttonRed");
     buttonRed.scale.setTo(0.33);
     buttonGreen= buttons.create(992, 865, "buttonGreen");
     buttonGreen.scale.setTo(0.33);
-    buttonBlue= buttons.create(406, 608, "buttonRed");
+    buttonBlue = buttons.create(960, 1184, "buttonBlue");
     buttonBlue.scale.setTo(0.33);
     buttonPurple= buttons.create(1248, 352, "buttonPurple");
     buttonPurple.scale.setTo(0.33);
 
-    laserRed = platforms.create(896, 832, "laserBlue");
+    laserRed = platforms.create(1280, 64, "laserTallRed");
     laserRed.body.immovable = true;
     laserGreen = platforms.create(1216, 64, "laserTallGreen");
     laserGreen.body.immovable = true;
-    laserBlue = platforms.create(1280, 64, "laserTallRed");
+    laserBlue = platforms.create(896, 832, "laserBlue");
     laserBlue.body.immovable = true;
     laserPurple = platforms.create(1344, 64, "laserTallPurple");
     laserPurple.body.immovable = true;
@@ -511,9 +511,9 @@ LevelOne.prototype = {
       }
       platform = platforms.create(320, 896, "platform08");
       platform.body.immovable = true;
-      platform = platforms.create(768, 896, "platform00");
+      platform = platforms.create(832, 896, "platform00");
       platform.body.immovable = true;
-      for(let i = 832; i < 1024; i++) {
+      for(let i = 896; i < 1024; i++) {
         let platform = platforms.create(i, 896, "platform01");
         platform.body.immovable = true;
       }
@@ -528,9 +528,9 @@ LevelOne.prototype = {
       platform = platforms.create(2560, 896, "platform04");
       platform.body.immovable = true;
       // row 16
-      platform = platforms.create(768, 960, "platform06");
+      platform = platforms.create(832, 960, "platform06");
       platform.body.immovable = true;
-      for(let i = 832; i < 1024; i++) {
+      for(let i = 896; i < 1024; i++) {
         let platform = platforms.create(i, 960, "platform07");
         platform.body.immovable = true;
       }

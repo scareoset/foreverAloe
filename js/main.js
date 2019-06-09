@@ -10,7 +10,7 @@ var config = {
   width: 800,
   height: 500,
   renderer: Phaser.AUTO,
-  idDOM: ""
+  idDOM: "foreverAloe"
 }
 
 var game;
