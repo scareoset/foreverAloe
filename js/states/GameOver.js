@@ -1,5 +1,7 @@
 "use strict";
 
+var deathSFX;
+
 var GameOver = function(game) {};
 
 GameOver.prototype = {
@@ -7,7 +9,10 @@ GameOver.prototype = {
 
   },
   preload: function() {
+    deathSFX = game.add.audio("deathSound");
+    deathSFX.loop = false;
     game.add.sprite(0, 0, "dead");
+    deathSFX.play();
   },
   create: function() {
     // set up game over screen
