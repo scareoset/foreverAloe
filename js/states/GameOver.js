@@ -21,6 +21,7 @@ GameOver.prototype = {
     // wait for player input top return to main menu?
     // have second menu in game over screen?
     if(game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+      deathSFX.stop();
       game.state.start("MainMenu");
     }
   }
