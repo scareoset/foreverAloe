@@ -186,7 +186,7 @@ LevelOne.prototype = {
     song = game.add.audio("score");
     song.loop = true;
     song.play();
-    
+
     jumpSFX = game.add.audio("jumpSound");
     jumpSFX.loop = false;
 
@@ -631,119 +631,113 @@ LevelOne.prototype = {
     game.physics.arcade.collide(enemyFour, platforms);
     game.physics.arcade.collide(enemyFive, platforms);
 
-    if(!playerAttack) {       // if not attacking
-      // jump function
-      grounded = player.body.touching.down;
+    // jump function
+    grounded = player.body.touching.down;
 
-      if(grounded) {
-        jumpsLeft = 2;
-        jumping = false;
-      }
-
-      if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
-        player.animations.play("jump");
-        jumpSFX.play();
-        player.body.velocity.y = -364;
-        jumping = true;
-      }
-
-      if(jumping && game.input.keyboard.upDuration(Phaser.Keyboard.UP)) {
-        jumpsLeft--;
-        jumping = false;
-        if(!xtraLife) {
-          player.animations.play("jump");
-        } else {
-          player.animations.play("jumpShield");
-        }
-      }
-      // end jump function
-
-      //run function
-      if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
-        if(!xtraLife) {
-          if(!grounded) {
-            player.animations.play("jump");
-            player.body.velocity.x = 300;
-            front = 1;
-          } else {
-            player.animations.play("left");
-            player.body.velocity.x = 300;
-            front = 1;
-          }
-        } else {
-          if(!grounded) {
-            player.animations.play("jumpShield");
-            player.body.velocity.x = 300;
-            front = 1;
-          } else {
-            player.animations.play("leftShield");
-            player.body.velocity.x = 300;
-            front = 1;
-          }
-        }
-        player.scale.setTo(0.2, 0.2);
-      } else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
-        if(!xtraLife) {
-          if(!grounded) {
-            player.animations.play("jump");
-            player.body.velocity.x = -300;
-            front = -1;
-            player.scale.setTo(-0.2, 0.2);
-          } else {
-            player.animations.play("left");
-            player.body.velocity.x = -300;
-            front = -1;
-            player.scale.setTo(-0.2, 0.2);
-          }
-        } else {
-          if(!grounded) {
-            player.animations.play("jumpShield");
-            player.body.velocity.x = -300;
-            front = -1;
-            player.scale.setTo(-0.2, 0.2);
-          } else {
-            player.animations.play("leftShield");
-            player.body.velocity.x = -300;
-            front = -1;
-            player.scale.setTo(-0.2, 0.2);
-          }
-        }
-      } else {
-        if(!xtraLife) {
-          if(!grounded) {
-            player.animations.play("jump");
-            player.body.velocity.x = 0;
-            player.scale.setTo(0.2, 0.2);
-          } else {
-            player.animations.play("idle");
-            player.body.velocity.x = 0;
-            player.scale.setTo(0.2, 0.2);
-          }
-        } else {
-          if(!grounded) {
-            player.animations.play("jumpShield");
-            player.body.velocity.x = 0;
-            player.scale.setTo(0.2, 0.2);
-          } else {
-            player.animations.play("idleShield");
-            player.body.velocity.x = 0;
-            player.scale.setTo(0.2, 0.2);
-          }
-        }
-      }
-
-      // bug w/ world bounds heres a fix i guess?
-      if(player.x < 0) {
-        player.x = 0;
-      } else if(player.x > game.world.width-32) {
-        player.x = game.world.width-32;
-      }
-      //end run function
-    } else if(playerAttack) { // if attacking
-
+    if(grounded) {
+      jumpsLeft = 2;
+      jumping = false;
     }
 
+    if(jumpsLeft > 0 && game.input.keyboard.downDuration(Phaser.Keyboard.UP, 150)) {
+      player.animations.play("jump");
+      jumpSFX.play();
+      player.body.velocity.y = -364;
+      jumping = true;
+    }
 
+    if(jumping && game.input.keyboard.upDuration(Phaser.Keyboard.UP)) {
+      jumpsLeft--;
+      jumping = false;
+      if(!xtraLife) {
+        player.animations.play("jump");
+      } else {
+        player.animations.play("jumpShield");
+      }
+    }
+    // end jump function
+
+    //run function
+    if(game.input.keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+      if(!xtraLife) {
+        if(!grounded) {
+          player.animations.play("jump");
+          player.body.velocity.x = 300;
+          front = 1;
+        } else {
+          player.animations.play("left");
+          player.body.velocity.x = 300;
+          front = 1;
+        }
+      } else {
+        if(!grounded) {
+          player.animations.play("jumpShield");
+          player.body.velocity.x = 300;
+          front = 1;
+        } else {
+          player.animations.play("leftShield");
+          player.body.velocity.x = 300;
+          front = 1;
+        }
+      }
+      player.scale.setTo(0.2, 0.2);
+    } else if(game.input.keyboard.isDown(Phaser.Keyboard.LEFT)) {
+      if(!xtraLife) {
+        if(!grounded) {
+          player.animations.play("jump");
+          player.body.velocity.x = -300;
+          front = -1;
+          player.scale.setTo(-0.2, 0.2);
+        } else {
+          player.animations.play("left");
+          player.body.velocity.x = -300;
+          front = -1;
+          player.scale.setTo(-0.2, 0.2);
+        }
+      } else {
+        if(!grounded) {
+          player.animations.play("jumpShield");
+          player.body.velocity.x = -300;
+          front = -1;
+          player.scale.setTo(-0.2, 0.2);
+        } else {
+          player.animations.play("leftShield");
+          player.body.velocity.x = -300;
+          front = -1;
+          player.scale.setTo(-0.2, 0.2);
+        }
+      }
+    } else {
+      if(!xtraLife) {
+        if(!grounded) {
+          player.animations.play("jump");
+          player.body.velocity.x = 0;
+          player.scale.setTo(0.2, 0.2);
+        } else {
+          player.animations.play("idle");
+          player.body.velocity.x = 0;
+          player.scale.setTo(0.2, 0.2);
+        }
+      } else {
+        if(!grounded) {
+          player.animations.play("jumpShield");
+          player.body.velocity.x = 0;
+          player.scale.setTo(0.2, 0.2);
+        } else {
+          player.animations.play("idleShield");
+          player.body.velocity.x = 0;
+          player.scale.setTo(0.2, 0.2);
+        }
+      }
+    }
+
+    // bug w/ world bounds heres a fix i guess?
+    if(player.x < 0) {
+      player.x = 0;
+    } else if(player.x > game.world.width-32) {
+      player.x = game.world.width-32;
+    }
+    //end run function
 
     if(enemyTwo.x < enemyTwoPathStart) {
       enemyTwo.animations.play("right");
